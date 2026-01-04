@@ -1,14 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
 
-/*
-    L: Faire l'IA
-    L: Faire la vérification pour empêcher les situations blqouées
-
-    M: 'combat' entre 2 pieces
-    M:  regle "combat" piece
-    M: victoire
-*/
 public class JoueurVsJoueur {
     public static Scanner scanner = new Scanner(System.in);
     public static final int LIGNES = 10;
@@ -46,10 +38,30 @@ public class JoueurVsJoueur {
 
     public static void choixPlacement(boolean choixNormal){
         if (choixNormal){
+            System.out.println("Au joueur 1 de placer ses pièces");
             placerPiecesNormal();
+            finTourJoueur();
+            changerTourJoueur();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n"); // Pour pas que le joueur voit dans l'historique du terminal le plateau de l'autre joueur
+
+            System.out.println("Au joueur 2 de placer ses pièces");
+            placerPiecesNormal();
+            finTourJoueur();
+            changerTourJoueur();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
         }
         else{
+            System.out.println("Placement aléatoire du joueur 1");
             placerPiecesAleatoirement();
+            finTourJoueur();
+            changerTourJoueur();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
+
+            System.out.println("Placement aléatoire du joueur 2");
+            placerPiecesAleatoirement();
+            finTourJoueur();
+            changerTourJoueur();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
         }
     }
 
@@ -65,6 +77,29 @@ public class JoueurVsJoueur {
         plateau[4][7] = 13;
         plateau[5][6] = 13;
         plateau[5][7] = 13;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Gestion joueurs
+
+
+    /* Change le tour du joueur (de la constante) */
+    public static void changerTourJoueur() {
+        joueur1 = !joueur1;
+    }
+
+    /* Le joueur appuie sur 1 quand il veut terminer son tour */
+    public static void finTourJoueur(){
+        String finTour;
+
+        System.out.println("Appuyer sur 1 pour finir votre tour :");
+        do {
+            finTour = scanner.nextLine();
+
+            if (!finTour.matches("1"))
+                System.out.println("Erreur de saisie. Recommencer :");
+
+        } while (!finTour.matches("[1]"));
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -92,25 +127,6 @@ public class JoueurVsJoueur {
         for (char lettre = 'A'; lettre < 'A' + LIGNES; lettre++)
             System.out.print("   " + lettre + "  ");
         System.out.println();
-    }
-
-    /* Change le tour du joueur (de la constante) */
-    public static void changerTourJoueur() {
-        joueur1 = !joueur1;
-    }
-
-    /* Le joueur appuie sur 1 quand il veut terminer son tour */
-    public static void finTourJoueur(){
-        String finTour;
-
-        System.out.println("Appuyer sur 1 pour finir votre tour :");
-        do {
-            finTour = scanner.nextLine();
-
-            if (!finTour.matches("1"))
-                System.out.println("Erreur de saisie. Recommencer :");
-
-        } while (!finTour.matches("[1]"));
     }
 
     /* Affiche ou cache les pièces colorées selon le tour du joueur
@@ -215,7 +231,6 @@ public class JoueurVsJoueur {
     /* Placer les pièces dans le plateau (version normal) */
     public static void placerPiecesNormal() {
         affichePlateau();
-        System.out.println("Au joueur 1 de poser ses pièces.");
         System.out.println("Veuillez entrez les coordonnées du drapeau : ");
         placement(12, 1);
         System.out.println("Veuillez entrez les coordonnées des six bombes : ");
@@ -240,41 +255,7 @@ public class JoueurVsJoueur {
         placement(2, 8);
         System.out.println("Veuillez entrez les coordonnées de l'assassins (1) : ");
         placement(1, 1);
-
-        finTourJoueur();
-        changerTourJoueur();
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n"); // Pour pas que le joueur voit dans l'historique du terminal le plateau de l'autre joueur
         affichePlateau();
-
-        System.out.println("Au joueur 2 de poser ses pièces.");
-        System.out.println("Veuillez entrez les coordonnées du drapeau : ");
-        placement(-12, 1);
-        System.out.println("Veuillez entrez les coordonnées des six bombes : ");
-        placement(-11, 6);
-        System.out.println("Veuillez entrez les coordonnées du maréchal (10): ");
-        placement(-10, 1);
-        System.out.println("Veuillez entrez les coordonnées du général (9) : ");
-        placement(-9, 1);
-        System.out.println("Veuillez entrez les coordonnées des deux colonnels (8) : ");
-        placement(-8, 2);
-        System.out.println("Veuillez entrez les coordonnées des trois  commandants (7) : ");
-        placement(-7, 3);
-        System.out.println("Veuillez entrez les coordonnées des quatres capitaines (6) : ");
-        placement(-6, 4);
-        System.out.println("Veuillez entrez les coordonnées des quatres lieutenants (5) : ");
-        placement(-5, 4);
-        System.out.println("Veuillez entrez les coordonnées des quatres sergents (4) : ");
-        placement(-4, 4);
-        System.out.println("Veuillez entrez les coordonnées des trois démineurs (3) : ");
-        placement(-3, 5);
-        System.out.println("Veuillez entrez les coordonnées des éclaireurs huits éclaireurs (2): ");
-        placement(-2, 8);
-        System.out.println("Veuillez entrez les coordonnées de l'assassins (1) : ");
-        placement(-1, 1);
-
-        finTourJoueur();
-        changerTourJoueur();
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     /* Place le nombre de fois la même pièce (version normal)*/
@@ -291,7 +272,12 @@ public class JoueurVsJoueur {
 
             }while(!verifPlacementInstallation(coordoLig, coordoCol));
 
-            plateau[coordoLig][coordoCol] = id;
+            if (joueur1){
+                plateau[coordoLig][coordoCol] = id;
+            }
+            else{
+                plateau[coordoLig][coordoCol] = -id;
+            }
             affichePlateau();
         }
     }
@@ -325,7 +311,6 @@ public class JoueurVsJoueur {
     public static void placerPiecesAleatoirement(){
         while(!piecesNonBloques()){
             viderPlateau(); // Pour éviter les bugs
-            System.out.println("Placement aléatoire des pièces du joueur 1.");
             placementAleatoire(12, 1); // Drapeau
             placementAleatoire(11, 6); // Bombes
             placementAleatoire(10, 1); // Maréchal
@@ -339,31 +324,7 @@ public class JoueurVsJoueur {
             placementAleatoire(2, 8); // Eclaireurs
             placementAleatoire(1, 1); // Assasins
         }
-        System.out.println("Voici vos pièces :");
         affichePlateau();
-        changerTourJoueur();
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
-
-        while(!piecesNonBloques()){
-            viderPlateau();
-            System.out.println("Placement aléatoire des pièces du joueur 2.\n");
-            placementAleatoire(-12, 1); // Drapeau
-            placementAleatoire(-11, 6); // Bombes
-            placementAleatoire(-10, 1); // Marchéal
-            placementAleatoire(-9, 1); // Général
-            placementAleatoire(-8, 2); // Colonnels
-            placementAleatoire(-7, 3); // Commandants
-            placementAleatoire(-6, 4); // Capitaines
-            placementAleatoire(-5, 4); // Lieutenants
-            placementAleatoire(-4, 4); // Sergents
-            placementAleatoire(-3, 5); // Démineurs
-            placementAleatoire(-2, 8); // Eclaireurs
-            placementAleatoire(-1, 1); // Assassins
-        }
-        System.out.println("Voici vos pièces :");
-        affichePlateau();
-        changerTourJoueur();
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     /* Si les pièces bloqués, enlève les pièces pour réinitialiser le placement aléatoire (version aléatoire) */
@@ -399,7 +360,7 @@ public class JoueurVsJoueur {
                     int lig = (int) (Math.random() * 4);
                     int col = (int) (Math.random() * 10);
                     if (plateau[lig][col] == 0) {
-                        plateau[lig][col] = id;
+                        plateau[lig][col] = -id;
                         placer = true;
                     }
                 }
@@ -993,7 +954,7 @@ public class JoueurVsJoueur {
                     "                                                                                    \n" +
                     "                                                                                    \n" +
                     "                                                                                    "
-                    + "\u001B[31m");
+                    + "\u001B[0m");
             menuFinPartie();
             return true;
         }
@@ -1048,6 +1009,23 @@ public class JoueurVsJoueur {
         }
         //remettre le j1 en premier pour le premier tour
         joueur1 = true;
+
+        // réinitisaliser toutes les variables globales
+         combatEffecute =  false;
+         dernierePieceAttaquante = 0;
+         cycle = 0;
+         repetition = 0;
+         compteur = 0;
+         sousCompteur1 = 0;
+         sousCompteur2 = 0;
+         caseDepart1_1 = null;
+         caseArrivee1_1 = null;
+         caseDepart1_2 = null;
+         caseArrivee1_2 = null;
+         caseDepart2_1 = null;
+         caseArrivee2_1 = null;
+         caseDepart2_2 = null;
+         caseArrivee2_2 = null;
 
         //recréer le plateau avec les lacs
         creationPlateau();
