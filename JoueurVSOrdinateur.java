@@ -1,8 +1,4 @@
-    /*
-    L : changer le message de victoire pour joueurs vs ordinateur
-     */
-
-    import javax.print.attribute.standard.OrientationRequested;
+import javax.print.attribute.standard.OrientationRequested;
 
     public class JoueurVSOrdinateur {
     public static boolean tourJoueurHumain = false;
